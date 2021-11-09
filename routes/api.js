@@ -2,9 +2,9 @@ var express = require("express");
 var router = express.Router();
 const db = require("../model/helper");
 
-router.get("/categories", function (req, res) {
+router.get("/categories", async function (req, res) {
   try {
-    const results = db("SELECT * FROM categories ORDER BY id ASC;");
+    const results = await db("SELECT * FROM categories ORDER BY id ASC;");
 
     res.send(results.data);
   } catch (error) {
