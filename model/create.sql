@@ -6,11 +6,11 @@ CREATE TABLE `categories` (
 	PRIMARY KEY (`id`)
 );
 
-DROP TABLE if exists `products`;
+DROP TABLE if exists `items`;
 
-CREATE TABLE `products` (
+CREATE TABLE `items` (
 	`id` INT NOT NULL AUTO_INCREMENT,
-	`category-id` INT NOT NULL,
+	`category_id` INT NOT NULL,
 	`name` varchar(100) NOT NULL,
 	`image` varchar(400) NOT NULL,
 	`color` varchar(100) NOT NULL,
@@ -18,4 +18,8 @@ CREATE TABLE `products` (
 	PRIMARY KEY (`id`)
 );
 
-ALTER TABLE `products` ADD CONSTRAINT `products_fk0` FOREIGN KEY (`category-id`) REFERENCES `categories`(`id`);
+ALTER TABLE `items` ADD CONSTRAINT `items_fk0` FOREIGN KEY (`category_id`) REFERENCES `categories`(`id`);
+
+INSERT INTO `categories` (name) VALUES ("coats"), ("jackets"), ("sweatshirts"), ("shirts"), ("t-shirts"), ("jeans"), ("trousers"), ("skirts"), ("shorts"), ("dresses"), ("hats"), ("scarves"), ("bags"), ("shoes")
+
+
