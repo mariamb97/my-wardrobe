@@ -25,7 +25,7 @@ con.connect(function (err) {
   con.query(sql, function (err, result) {
     if (err) throw err;
     console.log(
-      "Tables creations `categories` and `items` were successful. 14 rows were added to `categories`"
+      "Tables creations `categories`, `items`, `colors`, and `seasons` were successful. 14 rows were added to `categories`, 12 rows were added to `colors`, and 4 rows were added to `seasons`"
     );
 
     console.log("Closing...");

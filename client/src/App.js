@@ -8,17 +8,23 @@ import Item from "./components/Item.js";
 function App() {
   const [categories, setCategories] = useState([]);
   const [items, setItems] = useState([]);
+  const [colors, setColors] = useState([]);
+  const [seasons, setSeasons] = useState([]);
   const [displayCategories, setDisplayCategories] = useState(false);
+  const [filterCategory, setFilterCategory] = useState([]);
+  const [itemsAreFiltered, setItemsAreFiltered] = useState(false);
   const [input, setInput] = useState({
     category_id: 1,
+    color_id: 1,
+    season_id: 1,
     image: "",
-    color: "",
-    season: "",
   });
 
   useEffect(() => {
     getCategories();
     getItems();
+    getColors();
+    getSeasons();
   }, []);
 
   const getCategories = () => {
@@ -43,6 +49,28 @@ function App() {
       });
   };
 
+  const getColors = () => {
+    fetch("/api/colors")
+      .then((response) => response.json())
+      .then((colors) => {
+        setColors(colors);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const getSeasons = () => {
+    fetch("/api/seasons")
+      .then((response) => response.json())
+      .then((seasons) => {
+        setSeasons(seasons);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   const handleInputChange = (event) => {
     const { value, name } = event.target;
     setInput((state) => ({ ...state, [name]: value }));
@@ -57,7 +85,7 @@ function App() {
     setDisplayCategories(!displayCategories);
   };
 
-  const { category_id, image, color, season } = input;
+  const { category_id, color_id, season_id, image } = input;
 
   const addItem = async () => {
     try {
@@ -69,9 +97,9 @@ function App() {
         body: JSON.stringify(
           {
             category_id: input["category_id"],
+            color_id: input["color_id"],
+            season_id: input["season_id"],
             image: input["image"],
-            color: input["color"],
-            season: input["season"],
           }
           // input
         ),
@@ -89,6 +117,15 @@ function App() {
     })
       .then((res) => res.json())
       .then((data) => setItems(data));
+  };
+
+  const handleCategoryClick = (id, name) => {
+    filterItems(id);
+    showName(name);
+  };
+
+  const showName = (name) => {
+    setFilterCategory(name);
   };
 
   const filterItems = (id) => {
@@ -125,29 +162,31 @@ function App() {
         </select>
         <label>Color:</label>
         <select
-          name="color"
-          value={input.color}
+          name="color_id"
+          value={input.color_id}
           onChange={(event) => handleInputChange(event)}
         >
-          <option value="red">Red</option>
-          <option value="yellow">Yellow</option>
-          <option value="blue">Blue</option>
-          <option value="black">Black</option>
-          <option value="green">Green</option>
-          <option value="pink">Pink</option>
-          <option value="white">White</option>
-          <option value="brown">Brown</option>
+          {colors.map((color) => {
+            return (
+              <option value={color.id} key={color.id}>
+                {color.name}
+              </option>
+            );
+          })}
         </select>
         <label>Season:</label>
         <select
-          name="season"
-          value={input.season}
+          name="season_id"
+          value={input.season_id}
           onChange={(event) => handleInputChange(event)}
         >
-          <option value="spring">Spring</option>
-          <option value="summer">Summer</option>
-          <option value="fall">Fall</option>
-          <option value="winter">Winter</option>
+          {seasons.map((season) => {
+            return (
+              <option value={season.id} key={season.id}>
+                {season.name}
+              </option>
+            );
+          })}
         </select>
         <button id="submit-button">Submit</button>
       </form>
@@ -159,17 +198,27 @@ function App() {
         )}
       </div>
       <div id="container">
-        <div id="categoriesContainer">
+        <div id="filterContainer">
           {displayCategories &&
             categories.map((category) => {
               return (
                 <Category
                   category={category}
                   key={category.id}
-                  onClick={() => filterItems(category.id)}
+                  onClick={() =>
+                    handleCategoryClick(category.id, category.name)
+                  }
                 ></Category>
               );
             })}
+          {displayCategories && (
+            <div>
+              Looking for:{" "}
+              <div>
+                <div> {filterCategory}</div>
+              </div>
+            </div>
+          )}
         </div>
         <div id="itemsContainer">
           {items.map((item) => {

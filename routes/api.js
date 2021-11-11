@@ -21,6 +21,24 @@ router.get("/items", async function (req, res) {
   }
 });
 
+router.get("/colors", async function (req, res) {
+  try {
+    const results = await db("SELECT * FROM colors ORDER BY id ASC;");
+    res.send(results.data);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+router.get("/seasons", async function (req, res) {
+  try {
+    const results = await db("SELECT * FROM seasons ORDER BY id ASC;");
+    res.send(results.data);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
 router.get("/categories/:id/items", async function (req, res) {
   try {
     const results = await db(
@@ -34,9 +52,9 @@ router.get("/categories/:id/items", async function (req, res) {
 
 router.post("/items", async function (req, res) {
   try {
-    const { category_id, name, image, color, season } = req.body;
+    const { category_id, color_id, season_id, image } = req.body;
     await db(
-      `INSERT INTO items (category_id, name, image, color, season) VALUES ("${category_id}","${name}", "${image}","${color}","${season}");`
+      `INSERT INTO items (category_id, color_id, season_id, image) VALUES ("${category_id}","${color_id}","${season_id}", "${image}");`
     );
     const results = await db("SELECT * FROM items ORDER BY id ASC;");
     res.status(201).send(results.data);
