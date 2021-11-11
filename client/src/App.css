@@ -1,1 +1,41 @@
+/* #container {
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  grid-template-rows: auto auto auto auto;
+} */
 
+.categories {
+  /* position: absolute; */
+
+  /* position: static; */
+}
+
+#container {
+  position: relative;
+}
+
+#categoriesContainer {
+  /* position: relative; */
+}
+
+#itemsContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-column-gap: 2%;
+  grid-row-gap: 2%;
+  margin-top: 5%;
+  margin-left: 13%;
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  /* margin-left: 10%; */
+
+  /* background-color: #2196f3; */
+}
+
+.item-image {
+  object-fit: contain;
+  width: 180px;
+  height: 180px;
+}

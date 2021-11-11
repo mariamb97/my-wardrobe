@@ -14,9 +14,11 @@ CREATE TABLE `items` (
 	`name` varchar(100) NOT NULL,
 	`image` varchar(400) NOT NULL,
 	`color` varchar(100) NOT NULL,
-	`characteristic` varchar(100) NOT NULL,
+	`season` varchar(100) NOT NULL,
 	PRIMARY KEY (`id`)
 );
+
+DROP TABLE if exists `colors`;
 
 ALTER TABLE `items` ADD CONSTRAINT `items_fk0` FOREIGN KEY (`category_id`) REFERENCES `categories`(`id`);
 
