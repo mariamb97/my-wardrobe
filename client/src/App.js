@@ -4,10 +4,11 @@ import Categories from "./components/Categories.js";
 import Item from "./components/Item.js";
 
 function App() {
-  const [items, setItems] = useState([]);
   const [colors, setColors] = useState([]);
   const [seasons, setSeasons] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [checkedState, setCheckedState] = useState({});
+  const [filteredItems, setFilteredItems] = useState([]);
   const [input, setInput] = useState({
     category_id: 1,
     color_id: 1,
@@ -16,22 +17,11 @@ function App() {
   });
 
   useEffect(() => {
-    getItems();
     getColors();
     getSeasons();
     getCategories();
-  }, []);
-
-  const getItems = () => {
-    fetch("/api/items")
-      .then((response) => response.json())
-      .then((items) => {
-        setItems(items);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+    getFilteredItems();
+  }, [checkedState]);
 
   const getCategories = () => {
     fetch("/api/categories")
@@ -76,6 +66,32 @@ function App() {
     addItem();
   };
 
+  const handleChangeChecked = (categoryId) => {
+    console.log(categoryId);
+    if (!checkedState[categoryId]) {
+      setCheckedState((state) => ({ ...state, [categoryId]: true }));
+    } else {
+      setCheckedState((state) => ({ ...state, [categoryId]: false }));
+    }
+  };
+
+  const getFilteredItems = () => {
+    let categoriesPath = "";
+    for (const property in checkedState) {
+      if (checkedState[property]) {
+        categoriesPath += `categories[]=${property}&`;
+      }
+    }
+    fetch(`/api/items/?${categoriesPath}`)
+      .then((response) => response.json())
+      .then((items) => {
+        setFilteredItems(items);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   // const { category_id, color_id, season_id, image } = input;
 
   const addItem = async () => {
@@ -96,7 +112,7 @@ function App() {
         ),
       });
       const data = await response.json();
-      setItems(data);
+      setFilteredItems(data);
     } catch (error) {
       console.log(error);
     }
@@ -107,24 +123,7 @@ function App() {
       method: "DELETE",
     })
       .then((res) => res.json())
-      .then((data) => setItems(data));
-  };
-
-  // const handleCategoryClick = (id, name) => {
-  //   filterItems(id);
-  //   showName(name);
-  // };
-
-  // const showName = (name) => {
-  //   setFilterCategory(name);
-  // };
-
-  const filterItems = (categoryId) => {
-    fetch(`/api/categories/${categoryId}/items`, {
-      method: "GET",
-    })
-      .then((res) => res.json())
-      .then((data) => setItems(data));
+      .then((data) => setFilteredItems(data));
   };
 
   return (
@@ -184,10 +183,14 @@ function App() {
 
       <div id="container">
         <div id="filterContainer">
-          <Categories categories={categories}></Categories>
+          <Categories
+            categories={categories}
+            checked={(categoryId) => !!checkedState[categoryId]}
+            onChange={(categoryId) => handleChangeChecked(categoryId)}
+          ></Categories>
         </div>
         <div id="itemsContainer">
-          {items.map((item) => {
+          {filteredItems.map((item) => {
             return (
               <Item
                 item={item}
