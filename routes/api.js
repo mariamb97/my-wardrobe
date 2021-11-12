@@ -82,8 +82,22 @@ router.post("/items", async function (req, res) {
 router.delete("/items/:item_id", async function (req, res) {
   try {
     await db(`DELETE FROM items WHERE id = ${+req.params.item_id};`);
-    const results = await db("SELECT * FROM items ORDER BY id ASC;");
-    res.status(200).send(results.data);
+    // const results = await db("SELECT * FROM items ORDER BY id ASC;");
+    // res.status(200).send(results.data);
+    const { categories } = req.query;
+
+    let results = null;
+
+    if (!categories || !categories.length) {
+      results = await db("SELECT * FROM items ORDER BY id ASC;");
+    } else {
+      const categoriesJoined = categories.join(",");
+      results = await db(
+        `SELECT * FROM items WHERE category_id IN (${categoriesJoined}) ORDER BY id ASC;`
+      );
+    }
+
+    res.send(results.data);
   } catch (err) {
     res.status(500).send(err);
   }

@@ -56,6 +56,23 @@ function App() {
       });
   };
 
+  const getFilteredItems = () => {
+    let categoriesPath = "";
+    for (const property in checkedState) {
+      if (checkedState[property]) {
+        categoriesPath += `categories[]=${property}&`;
+      }
+    }
+    fetch(`/api/items/?${categoriesPath}`)
+      .then((response) => response.json())
+      .then((items) => {
+        setFilteredItems(items);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   const handleInputChange = (event) => {
     const { value, name } = event.target;
     setInput((state) => ({ ...state, [name]: value }));
@@ -73,23 +90,6 @@ function App() {
     } else {
       setCheckedState((state) => ({ ...state, [categoryId]: false }));
     }
-  };
-
-  const getFilteredItems = () => {
-    let categoriesPath = "";
-    for (const property in checkedState) {
-      if (checkedState[property]) {
-        categoriesPath += `categories[]=${property}&`;
-      }
-    }
-    fetch(`/api/items/?${categoriesPath}`)
-      .then((response) => response.json())
-      .then((items) => {
-        setFilteredItems(items);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
   };
 
   // const { category_id, color_id, season_id, image } = input;
@@ -119,11 +119,31 @@ function App() {
   };
 
   const deleteItem = (id) => {
-    fetch(`/api/items/${id}`, {
+    let categoriesPath = "";
+    for (const property in checkedState) {
+      if (checkedState[property]) {
+        categoriesPath += `categories[]=${property}&`;
+      }
+    }
+    fetch(`/api/items/${id}/?${categoriesPath}`, {
       method: "DELETE",
     })
       .then((res) => res.json())
       .then((data) => setFilteredItems(data));
+  };
+
+  // const handleClickDeleteItem = async (id) => {
+  //   try {
+  //     await deleteItem(id);
+  //     await getFilteredItems();
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+  const handleClickDeleteItem = (id) => {
+    deleteItem(id);
+    // getFilteredItems();
   };
 
   return (
@@ -185,6 +205,7 @@ function App() {
         <div id="filterContainer">
           <Categories
             categories={categories}
+            checkedState={checkedState}
             checked={(categoryId) => !!checkedState[categoryId]}
             onChange={(categoryId) => handleChangeChecked(categoryId)}
           ></Categories>
@@ -195,7 +216,7 @@ function App() {
               <Item
                 item={item}
                 key={item.id}
-                onClick={(id) => deleteItem(id)}
+                onClick={(id) => handleClickDeleteItem(id)}
               ></Item>
             );
           })}
