@@ -1,7 +1,10 @@
 import "./App.css";
 import React, { useEffect, useState } from "react";
 import Categories from "./components/Categories.js";
+import Colors from "./components/Colors.js";
 import Item from "./components/Item.js";
+import SortIcon from "./images/sort_icon.png";
+import CloseSortIcon from "./images/close_sort_icon.png";
 
 function App() {
   const [colors, setColors] = useState([]);
@@ -9,6 +12,8 @@ function App() {
   const [categories, setCategories] = useState([]);
   const [checkedState, setCheckedState] = useState({});
   const [filteredItems, setFilteredItems] = useState([]);
+  const [displayFilterList, setDisplayFilterList] = useState(false);
+
   const [input, setInput] = useState({
     category_id: 1,
     color_id: 1,
@@ -83,8 +88,11 @@ function App() {
     addItem();
   };
 
+  const handleIconClick = () => {
+    setDisplayFilterList(!displayFilterList);
+  };
+
   const handleChangeChecked = (categoryId) => {
-    console.log(categoryId);
     if (!checkedState[categoryId]) {
       setCheckedState((state) => ({ ...state, [categoryId]: true }));
     } else {
@@ -92,11 +100,17 @@ function App() {
     }
   };
 
-  // const { category_id, color_id, season_id, image } = input;
-
   const addItem = async () => {
+    // const { category_id, color_id, season_id, image } = input;
+
+    let categoriesPath = "";
+    for (const property in checkedState) {
+      if (checkedState[property]) {
+        categoriesPath += `categories[]=${property}&`;
+      }
+    }
     try {
-      const response = await fetch("/api/items", {
+      const response = await fetch(`/api/items/?${categoriesPath}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -132,18 +146,8 @@ function App() {
       .then((data) => setFilteredItems(data));
   };
 
-  // const handleClickDeleteItem = async (id) => {
-  //   try {
-  //     await deleteItem(id);
-  //     await getFilteredItems();
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
   const handleClickDeleteItem = (id) => {
     deleteItem(id);
-    // getFilteredItems();
   };
 
   return (
@@ -203,12 +207,22 @@ function App() {
 
       <div id="container">
         <div id="filterContainer">
+          {/* <FilterList></FilterList> */}
+          <div>
+            {displayFilterList ? (
+              <img src={CloseSortIcon} onClick={handleIconClick} />
+            ) : (
+              <img src={SortIcon} onClick={handleIconClick} />
+            )}
+          </div>
           <Categories
             categories={categories}
             checkedState={checkedState}
             checked={(categoryId) => !!checkedState[categoryId]}
             onChange={(categoryId) => handleChangeChecked(categoryId)}
+            displayFilterList={displayFilterList}
           ></Categories>
+          <Colors displayFilterList={displayFilterList}></Colors>
         </div>
         <div id="itemsContainer">
           {filteredItems.map((item) => {

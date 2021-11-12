@@ -72,7 +72,18 @@ router.post("/items", async function (req, res) {
     await db(
       `INSERT INTO items (category_id, color_id, season_id, image) VALUES ("${category_id}","${color_id}","${season_id}", "${image}");`
     );
-    const results = await db("SELECT * FROM items ORDER BY id ASC;");
+    const { categories } = req.query;
+
+    let results = null;
+
+    if (!categories || !categories.length) {
+      results = await db("SELECT * FROM items ORDER BY id ASC;");
+    } else {
+      const categoriesJoined = categories.join(",");
+      results = await db(
+        `SELECT * FROM items WHERE category_id IN (${categoriesJoined}) ORDER BY id ASC;`
+      );
+    }
     res.status(201).send(results.data);
   } catch (error) {
     res.status(500).send(error);

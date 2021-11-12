@@ -1,8 +1,13 @@
 import React from "react";
 
-export default function Category({ category, onChange, checked }) {
+export default function Category({
+  category,
+  onChange,
+  checked,
+  displayFilterList,
+}) {
   return (
-    <div>
+    <div className={!displayFilterList ? "hidden-content-list" : ""}>
       <input
         type="checkbox"
         name={category.name}
