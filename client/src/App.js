@@ -1,18 +1,13 @@
-import SortIcon from "./images/sort_icon.png";
-import CloseSortIcon from "./images/close_sort_icon.png";
 import "./App.css";
 import React, { useEffect, useState } from "react";
-import Category from "./components/Category.js";
+import Categories from "./components/Categories.js";
 import Item from "./components/Item.js";
 
 function App() {
-  const [categories, setCategories] = useState([]);
   const [items, setItems] = useState([]);
   const [colors, setColors] = useState([]);
   const [seasons, setSeasons] = useState([]);
-  const [displayCategories, setDisplayCategories] = useState(false);
-  const [filterCategory, setFilterCategory] = useState([]);
-  const [itemsAreFiltered, setItemsAreFiltered] = useState(false);
+  const [categories, setCategories] = useState([]);
   const [input, setInput] = useState({
     category_id: 1,
     color_id: 1,
@@ -21,28 +16,28 @@ function App() {
   });
 
   useEffect(() => {
-    getCategories();
     getItems();
     getColors();
     getSeasons();
+    getCategories();
   }, []);
-
-  const getCategories = () => {
-    fetch("/api/categories")
-      .then((response) => response.json())
-      .then((categories) => {
-        setCategories(categories);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
 
   const getItems = () => {
     fetch("/api/items")
       .then((response) => response.json())
       .then((items) => {
         setItems(items);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const getCategories = () => {
+    fetch("/api/categories")
+      .then((response) => response.json())
+      .then((categories) => {
+        setCategories(categories);
       })
       .catch((error) => {
         console.log(error);
@@ -81,11 +76,7 @@ function App() {
     addItem();
   };
 
-  const handleIconClick = () => {
-    setDisplayCategories(!displayCategories);
-  };
-
-  const { category_id, color_id, season_id, image } = input;
+  // const { category_id, color_id, season_id, image } = input;
 
   const addItem = async () => {
     try {
@@ -119,17 +110,17 @@ function App() {
       .then((data) => setItems(data));
   };
 
-  const handleCategoryClick = (id, name) => {
-    filterItems(id);
-    showName(name);
-  };
+  // const handleCategoryClick = (id, name) => {
+  //   filterItems(id);
+  //   showName(name);
+  // };
 
-  const showName = (name) => {
-    setFilterCategory(name);
-  };
+  // const showName = (name) => {
+  //   setFilterCategory(name);
+  // };
 
-  const filterItems = (id) => {
-    fetch(`/api/categories/${id}/items`, {
+  const filterItems = (categoryId) => {
+    fetch(`/api/categories/${categoryId}/items`, {
       method: "GET",
     })
       .then((res) => res.json())
@@ -190,35 +181,10 @@ function App() {
         </select>
         <button id="submit-button">Submit</button>
       </form>
-      <div>
-        {displayCategories ? (
-          <img src={CloseSortIcon} onClick={handleIconClick} />
-        ) : (
-          <img src={SortIcon} onClick={handleIconClick} />
-        )}
-      </div>
+
       <div id="container">
         <div id="filterContainer">
-          {displayCategories &&
-            categories.map((category) => {
-              return (
-                <Category
-                  category={category}
-                  key={category.id}
-                  onClick={() =>
-                    handleCategoryClick(category.id, category.name)
-                  }
-                ></Category>
-              );
-            })}
-          {displayCategories && (
-            <div>
-              Looking for:{" "}
-              <div>
-                <div> {filterCategory}</div>
-              </div>
-            </div>
-          )}
+          <Categories categories={categories}></Categories>
         </div>
         <div id="itemsContainer">
           {items.map((item) => {

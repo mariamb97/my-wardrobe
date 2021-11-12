@@ -14,9 +14,25 @@ router.get("/categories", async function (req, res) {
 
 router.get("/items", async function (req, res) {
   try {
-    const results = await db("SELECT * FROM items ORDER BY id ASC;");
+    const { categories } = req.query;
+
+    console.log(req.query);
+
+    let results = null;
+
+    console.log(categories);
+    if (!categories || !categories.length) {
+      results = await db("SELECT * FROM items ORDER BY id ASC;");
+    } else {
+      const categoriesJoined = categories.join(",");
+      results = await db(
+        `SELECT * FROM items WHERE category_id IN (${categoriesJoined}) ORDER BY id ASC;`
+      );
+    }
+
     res.send(results.data);
   } catch (error) {
+    console.error(error);
     res.status(500).send(error);
   }
 });
