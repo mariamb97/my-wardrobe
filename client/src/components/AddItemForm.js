@@ -27,38 +27,37 @@ export default function AddItemForm({
   };
 
   const addItem = async () => {
-    // const { category_id, color_id, season_id, image } = input;
+    // let filterPath = "";
 
-    let filterPath = "";
-    for (const property in checkedStateCategories) {
-      if (checkedStateCategories[property]) {
-        filterPath += `categories[]=${property}&`;
-      }
-    }
-    for (const property in checkedStateColors) {
-      if (checkedStateColors[property]) {
-        filterPath += `colors[]=${property}&`;
-      }
-    }
-    for (const property in checkedStateSeasons) {
-      if (checkedStateSeasons[property]) {
-        filterPath += `seasons[]=${property}&`;
-      }
-    }
+    const filterQueryString = Object.keys(checkedStateCategories)
+      .filter((category) => checkedStateCategories[category])
+      .map((category) => `categories[]=${category}`)
+      .concat(
+        Object.keys(checkedStateColors)
+          .filter((color) => checkedStateColors[color])
+          .map((color) => `colors[]=${color}`)
+      )
+      .concat(
+        Object.keys(checkedStateSeasons)
+          .filter((season) => checkedStateSeasons[season])
+          .map((season) => `seasons[]=${season}`)
+      )
+      .join("&");
     try {
-      const response = await fetch(`/api/items/?${filterPath}`, {
+      const { category_id, color_id, season_id, image } = input;
+      const response = await fetch(`/api/items/?${filterQueryString}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(
-          {
-            category_id: input["category_id"],
-            color_id: input["color_id"],
-            season_id: input["season_id"],
-            image: input["image"],
-          }
           //  input
+          {
+            category_id: category_id,
+            color_id: color_id,
+            season_id: season_id,
+            image: image,
+          }
         ),
       });
       const data = await response.json();
