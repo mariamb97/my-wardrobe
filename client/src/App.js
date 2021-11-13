@@ -1,19 +1,22 @@
 import "./App.css";
 import React, { useEffect, useState } from "react";
-import Categories from "./components/Categories.js";
-import Colors from "./components/Colors.js";
+import FilterList from "./components/FilterList.js";
 import Item from "./components/Item.js";
-import SortIcon from "./images/sort_icon.png";
-import CloseSortIcon from "./images/close_sort_icon.png";
 
 function App() {
   const [colors, setColors] = useState([]);
   const [seasons, setSeasons] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [checkedState, setCheckedState] = useState({});
-  const [filteredItems, setFilteredItems] = useState([]);
   const [displayFilterList, setDisplayFilterList] = useState(false);
-
+  const [filteredItems, setFilteredItems] = useState([]);
+  const [checkedStateCategories, setCheckedStateCategories] = useState({});
+  const [checkedStateColors, setCheckedStateColors] = useState({});
+  const [checkedStateSeasons, setCheckedStateSeasons] = useState({});
+  // const [checkedStateFilters, setCheckedStateFilters] = useState({
+  //   categories: {},
+  //   colors: {},
+  //   seasons: {}
+  // });
   const [input, setInput] = useState({
     category_id: 1,
     color_id: 1,
@@ -26,7 +29,7 @@ function App() {
     getSeasons();
     getCategories();
     getFilteredItems();
-  }, [checkedState]);
+  }, [checkedStateCategories, checkedStateColors, checkedStateSeasons]);
 
   const getCategories = () => {
     fetch("/api/categories")
@@ -62,13 +65,23 @@ function App() {
   };
 
   const getFilteredItems = () => {
-    let categoriesPath = "";
-    for (const property in checkedState) {
-      if (checkedState[property]) {
-        categoriesPath += `categories[]=${property}&`;
+    let filterPath = "";
+    for (const property in checkedStateCategories) {
+      if (checkedStateCategories[property]) {
+        filterPath += `categories[]=${property}&`;
       }
     }
-    fetch(`/api/items/?${categoriesPath}`)
+    for (const property in checkedStateColors) {
+      if (checkedStateColors[property]) {
+        filterPath += `colors[]=${property}&`;
+      }
+    }
+    for (const property in checkedStateSeasons) {
+      if (checkedStateSeasons[property]) {
+        filterPath += `seasons[]=${property}&`;
+      }
+    }
+    fetch(`/api/items/?${filterPath}`)
       .then((response) => response.json())
       .then((items) => {
         setFilteredItems(items);
@@ -92,37 +105,82 @@ function App() {
     setDisplayFilterList(!displayFilterList);
   };
 
-  const handleChangeChecked = (categoryId) => {
-    if (!checkedState[categoryId]) {
-      setCheckedState((state) => ({ ...state, [categoryId]: true }));
+  // const handleChangeCheckedCategories = (categoryId) => {
+  //   const { categories } = checkedStateFilters;
+  //   if (!checkedStateFilters[categoryId]) {
+  //     setCheckedStateFilters((state) => ({
+  //       ...state[categories],
+  //       categories: {
+  //         [categoryId]: true,
+  //       },
+  //     }));
+  //   } else {
+  //     setCheckedStateFilters((state) => ({
+  //       ...state[categories],
+  //       categories: {
+  //         [categoryId]: false,
+  //       },
+  //     }));
+  //   }
+  // };
+
+  const handleChangeCheckedCategories = (categoryId) => {
+    if (!checkedStateCategories[categoryId]) {
+      setCheckedStateCategories((state) => ({ ...state, [categoryId]: true }));
     } else {
-      setCheckedState((state) => ({ ...state, [categoryId]: false }));
+      setCheckedStateCategories((state) => ({ ...state, [categoryId]: false }));
+    }
+  };
+
+  const handleChangeCheckedColors = (colorId) => {
+    if (!checkedStateColors[colorId]) {
+      setCheckedStateColors((state) => ({ ...state, [colorId]: true }));
+    } else {
+      setCheckedStateColors((state) => ({ ...state, [colorId]: false }));
+    }
+  };
+
+  const handleChangeCheckedSeasons = (seasonId) => {
+    if (!checkedStateSeasons[seasonId]) {
+      setCheckedStateSeasons((state) => ({ ...state, [seasonId]: true }));
+    } else {
+      setCheckedStateSeasons((state) => ({ ...state, [seasonId]: false }));
     }
   };
 
   const addItem = async () => {
-    // const { category_id, color_id, season_id, image } = input;
+    const { category_id, color_id, season_id, image } = input;
 
-    let categoriesPath = "";
-    for (const property in checkedState) {
-      if (checkedState[property]) {
-        categoriesPath += `categories[]=${property}&`;
+    let filterPath = "";
+    for (const property in checkedStateCategories) {
+      if (checkedStateCategories[property]) {
+        filterPath += `categories[]=${property}&`;
+      }
+    }
+    for (const property in checkedStateColors) {
+      if (checkedStateColors[property]) {
+        filterPath += `colors[]=${property}&`;
+      }
+    }
+    for (const property in checkedStateSeasons) {
+      if (checkedStateSeasons[property]) {
+        filterPath += `seasons[]=${property}&`;
       }
     }
     try {
-      const response = await fetch(`/api/items/?${categoriesPath}`, {
+      const response = await fetch(`/api/items/?${filterPath}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(
-          {
-            category_id: input["category_id"],
-            color_id: input["color_id"],
-            season_id: input["season_id"],
-            image: input["image"],
-          }
-          // input
+          // {
+          //   category_id: input["category_id"],
+          //   color_id: input["color_id"],
+          //   season_id: input["season_id"],
+          //   image: input["image"],
+          // }
+          input
         ),
       });
       const data = await response.json();
@@ -133,21 +191,27 @@ function App() {
   };
 
   const deleteItem = (id) => {
-    let categoriesPath = "";
-    for (const property in checkedState) {
-      if (checkedState[property]) {
-        categoriesPath += `categories[]=${property}&`;
+    let filterPath = "";
+    for (const property in checkedStateCategories) {
+      if (checkedStateCategories[property]) {
+        filterPath += `categories[]=${property}&`;
       }
     }
-    fetch(`/api/items/${id}/?${categoriesPath}`, {
+    for (const property in checkedStateColors) {
+      if (checkedStateColors[property]) {
+        filterPath += `colors[]=${property}&`;
+      }
+    }
+    for (const property in checkedStateSeasons) {
+      if (checkedStateSeasons[property]) {
+        filterPath += `seasons[]=${property}&`;
+      }
+    }
+    fetch(`/api/items/${id}/?${filterPath}`, {
       method: "DELETE",
     })
       .then((res) => res.json())
       .then((data) => setFilteredItems(data));
-  };
-
-  const handleClickDeleteItem = (id) => {
-    deleteItem(id);
   };
 
   return (
@@ -207,22 +271,22 @@ function App() {
 
       <div id="container">
         <div id="filterContainer">
-          {/* <FilterList></FilterList> */}
-          <div>
-            {displayFilterList ? (
-              <img src={CloseSortIcon} onClick={handleIconClick} />
-            ) : (
-              <img src={SortIcon} onClick={handleIconClick} />
-            )}
-          </div>
-          <Categories
-            categories={categories}
-            checkedState={checkedState}
-            checked={(categoryId) => !!checkedState[categoryId]}
-            onChange={(categoryId) => handleChangeChecked(categoryId)}
+          <FilterList
+            handleIconClick={handleIconClick}
             displayFilterList={displayFilterList}
-          ></Categories>
-          <Colors displayFilterList={displayFilterList}></Colors>
+            categories={categories}
+            handleChangeCheckedCategories={(categoryId) =>
+              handleChangeCheckedCategories(categoryId)
+            }
+            colors={colors}
+            handleChangeCheckedColors={(colorId) =>
+              handleChangeCheckedColors(colorId)
+            }
+            seasons={seasons}
+            handleChangeCheckedSeasons={(seasonId) =>
+              handleChangeCheckedSeasons(seasonId)
+            }
+          ></FilterList>
         </div>
         <div id="itemsContainer">
           {filteredItems.map((item) => {
@@ -230,7 +294,7 @@ function App() {
               <Item
                 item={item}
                 key={item.id}
-                onClick={(id) => handleClickDeleteItem(id)}
+                onClick={(id) => deleteItem(id)}
               ></Item>
             );
           })}

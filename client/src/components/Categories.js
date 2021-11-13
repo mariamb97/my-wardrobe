@@ -2,10 +2,10 @@ import Category from "./Category.js";
 import "./Categories.css";
 
 export default function Categories({
-  categories,
-  onChange,
-  checked,
   displayFilterList,
+  categories,
+  handleChangeCheckedCategories,
+  // checkedStateCategory,
 }) {
   return (
     <div>
@@ -15,11 +15,13 @@ export default function Categories({
       {categories.map((category) => {
         return (
           <Category
-            checked={() => checked(category.id)}
             category={category}
             key={category.id}
-            onChange={() => onChange(category.id)}
+            handleChangeCheckedCategories={() =>
+              handleChangeCheckedCategories(category.id)
+            }
             displayFilterList={displayFilterList}
+            // checkedStateCategory={() => checkedStateCategory(category.id)}
           ></Category>
         );
       })}

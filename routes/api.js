@@ -12,21 +12,83 @@ router.get("/categories", async function (req, res) {
   }
 });
 
+// router.get("/items", async function (req, res) {
+//   try {
+//     const { categories } = req.query;
+
+//     console.log(req.query);
+
+//     let results = null;
+
+//     console.log(categories);
+//     if (!categories || !categories.length) {
+//       results = await db("SELECT * FROM items ORDER BY id ASC;");
+//     } else {
+//       const categoriesJoined = categories.join(",");
+//       results = await db(
+//         `SELECT * FROM items WHERE category_id IN (${categoriesJoined}) ORDER BY id ASC;`
+//       );
+//     }
+
 router.get("/items", async function (req, res) {
   try {
     const { categories } = req.query;
-
-    console.log(req.query);
+    const { colors } = req.query;
+    const { seasons } = req.query;
 
     let results = null;
 
-    console.log(categories);
-    if (!categories || !categories.length) {
+    if (
+      (!categories || !categories.length) &&
+      (!colors || !colors.length) &&
+      (!seasons || !seasons.length)
+    ) {
       results = await db("SELECT * FROM items ORDER BY id ASC;");
-    } else {
+    } else if (categories && colors) {
+      const categoriesJoined = categories.join(",");
+      const colorsJoined = colors.join(",");
+      results = await db(
+        `SELECT * FROM items WHERE (category_id) IN (${categoriesJoined}) AND (color_id) IN (${colorsJoined});`
+      );
+    } else if (categories && seasons) {
+      const categoriesJoined = categories.join(",");
+      const seasonsJoined = seasons.join(",");
+      results = await db(
+        `SELECT * FROM items WHERE (category_id) IN (${categoriesJoined}) AND (season_id) IN (${seasonsJoined});`
+      );
+    } else if (colors && seasons) {
+      const colorsJoined = colors.join(",");
+      const seasonsJoined = seasons.join(",");
+      results = await db(
+        `SELECT * FROM items WHERE (color_id) IN (${colorsJoined}) AND (season_id) IN (${seasonsJoined});`
+      );
+    } else if ((!colors || !colors.length) && (!seasons || !seasons.length)) {
       const categoriesJoined = categories.join(",");
       results = await db(
-        `SELECT * FROM items WHERE category_id IN (${categoriesJoined}) ORDER BY id ASC;`
+        `SELECT * FROM items WHERE (category_id) IN (${categoriesJoined});`
+      );
+    } else if (
+      (!categories || !categories.length) &&
+      (!seasons || !seasons.length)
+    ) {
+      const colorsJoined = colors.join(",");
+      results = await db(
+        `SELECT * FROM items WHERE (color_id) IN (${colorsJoined}));`
+      );
+    } else if (
+      (!categories || !categories.length) &&
+      (!colors || !colors.length)
+    ) {
+      const seasonsJoined = seasons.join(",");
+      results = await db(
+        `SELECT * FROM items WHERE (season_id) IN (${seasonsJoined}));`
+      );
+    } else {
+      const categoriesJoined = categories.join(",");
+      const colorsJoined = colors.join(",");
+      const seasonsJoined = seasons.join(",");
+      results = await db(
+        `SELECT * FROM items WHERE (category_id) IN (${categoriesJoined}) AND (color_id) IN (${colorsJoined} AND (season_id) IN (${seasonsJoined});`
       );
     }
 
@@ -73,15 +135,62 @@ router.post("/items", async function (req, res) {
       `INSERT INTO items (category_id, color_id, season_id, image) VALUES ("${category_id}","${color_id}","${season_id}", "${image}");`
     );
     const { categories } = req.query;
+    const { colors } = req.query;
+    const { seasons } = req.query;
 
     let results = null;
 
-    if (!categories || !categories.length) {
+    if (
+      (!categories || !categories.length) &&
+      (!colors || !colors.length) &&
+      (!seasons || !seasons.length)
+    ) {
       results = await db("SELECT * FROM items ORDER BY id ASC;");
-    } else {
+    } else if (categories && colors) {
+      const categoriesJoined = categories.join(",");
+      const colorsJoined = colors.join(",");
+      results = await db(
+        `SELECT * FROM items WHERE (category_id) IN (${categoriesJoined}) AND (color_id) IN (${colorsJoined});`
+      );
+    } else if (categories && seasons) {
+      const categoriesJoined = categories.join(",");
+      const seasonsJoined = seasons.join(",");
+      results = await db(
+        `SELECT * FROM items WHERE (category_id) IN (${categoriesJoined}) AND (season_id) IN (${seasonsJoined});`
+      );
+    } else if (colors && seasons) {
+      const colorsJoined = colors.join(",");
+      const seasonsJoined = seasons.join(",");
+      results = await db(
+        `SELECT * FROM items WHERE (color_id) IN (${colorsJoined}) AND (season_id) IN (${seasonsJoined});`
+      );
+    } else if ((!colors || !colors.length) && (!seasons || !seasons.length)) {
       const categoriesJoined = categories.join(",");
       results = await db(
-        `SELECT * FROM items WHERE category_id IN (${categoriesJoined}) ORDER BY id ASC;`
+        `SELECT * FROM items WHERE (category_id) IN (${categoriesJoined});`
+      );
+    } else if (
+      (!categories || !categories.length) &&
+      (!seasons || !seasons.length)
+    ) {
+      const colorsJoined = colors.join(",");
+      results = await db(
+        `SELECT * FROM items WHERE (color_id) IN (${colorsJoined}));`
+      );
+    } else if (
+      (!categories || !categories.length) &&
+      (!colors || !colors.length)
+    ) {
+      const seasonsJoined = seasons.join(",");
+      results = await db(
+        `SELECT * FROM items WHERE (season_id) IN (${seasonsJoined}));`
+      );
+    } else {
+      const categoriesJoined = categories.join(",");
+      const colorsJoined = colors.join(",");
+      const seasonsJoined = seasons.join(",");
+      results = await db(
+        `SELECT * FROM items WHERE (category_id) IN (${categoriesJoined}) AND (color_id) IN (${colorsJoined} AND (season_id) IN (${seasonsJoined});`
       );
     }
     res.status(201).send(results.data);
@@ -93,18 +202,63 @@ router.post("/items", async function (req, res) {
 router.delete("/items/:item_id", async function (req, res) {
   try {
     await db(`DELETE FROM items WHERE id = ${+req.params.item_id};`);
-    // const results = await db("SELECT * FROM items ORDER BY id ASC;");
-    // res.status(200).send(results.data);
     const { categories } = req.query;
+    const { colors } = req.query;
+    const { seasons } = req.query;
 
     let results = null;
 
-    if (!categories || !categories.length) {
+    if (
+      (!categories || !categories.length) &&
+      (!colors || !colors.length) &&
+      (!seasons || !seasons.length)
+    ) {
       results = await db("SELECT * FROM items ORDER BY id ASC;");
-    } else {
+    } else if (categories && colors) {
+      const categoriesJoined = categories.join(",");
+      const colorsJoined = colors.join(",");
+      results = await db(
+        `SELECT * FROM items WHERE (category_id) IN (${categoriesJoined}) AND (color_id) IN (${colorsJoined});`
+      );
+    } else if (categories && seasons) {
+      const categoriesJoined = categories.join(",");
+      const seasonsJoined = seasons.join(",");
+      results = await db(
+        `SELECT * FROM items WHERE (category_id) IN (${categoriesJoined}) AND (season_id) IN (${seasonsJoined});`
+      );
+    } else if (colors && seasons) {
+      const colorsJoined = colors.join(",");
+      const seasonsJoined = seasons.join(",");
+      results = await db(
+        `SELECT * FROM items WHERE (color_id) IN (${colorsJoined}) AND (season_id) IN (${seasonsJoined});`
+      );
+    } else if ((!colors || !colors.length) && (!seasons || !seasons.length)) {
       const categoriesJoined = categories.join(",");
       results = await db(
-        `SELECT * FROM items WHERE category_id IN (${categoriesJoined}) ORDER BY id ASC;`
+        `SELECT * FROM items WHERE (category_id) IN (${categoriesJoined});`
+      );
+    } else if (
+      (!categories || !categories.length) &&
+      (!seasons || !seasons.length)
+    ) {
+      const colorsJoined = colors.join(",");
+      results = await db(
+        `SELECT * FROM items WHERE (color_id) IN (${colorsJoined}));`
+      );
+    } else if (
+      (!categories || !categories.length) &&
+      (!colors || !colors.length)
+    ) {
+      const seasonsJoined = seasons.join(",");
+      results = await db(
+        `SELECT * FROM items WHERE (season_id) IN (${seasonsJoined}));`
+      );
+    } else {
+      const categoriesJoined = categories.join(",");
+      const colorsJoined = colors.join(",");
+      const seasonsJoined = seasons.join(",");
+      results = await db(
+        `SELECT * FROM items WHERE (category_id) IN (${categoriesJoined}) AND (color_id) IN (${colorsJoined} AND (season_id) IN (${seasonsJoined});`
       );
     }
 

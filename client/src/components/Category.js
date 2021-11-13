@@ -1,18 +1,19 @@
 import React from "react";
 
 export default function Category({
-  category,
-  onChange,
-  checked,
   displayFilterList,
+  category,
+  handleChangeCheckedCategories,
+  // checked,
 }) {
   return (
     <div className={!displayFilterList ? "hidden-content-list" : ""}>
       <input
         type="checkbox"
-        name={category.name}
-        value={checked}
-        onChange={() => onChange(category.id)}
+        name="categories"
+        value={category.id}
+        onChange={handleChangeCheckedCategories}
+        //  value={checked}
       />
       <label>{category.name}​</label>
       {/* <span className="category" onClick={() => onClick(category.id)}>
