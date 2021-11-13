@@ -73,7 +73,7 @@ router.get("/items", async function (req, res) {
     ) {
       const colorsJoined = colors.join(",");
       results = await db(
-        `SELECT * FROM items WHERE (color_id) IN (${colorsJoined}));`
+        `SELECT * FROM items WHERE (color_id) IN (${colorsJoined});`
       );
     } else if (
       (!categories || !categories.length) &&
@@ -81,7 +81,7 @@ router.get("/items", async function (req, res) {
     ) {
       const seasonsJoined = seasons.join(",");
       results = await db(
-        `SELECT * FROM items WHERE (season_id) IN (${seasonsJoined}));`
+        `SELECT * FROM items WHERE (season_id) IN (${seasonsJoined});`
       );
     } else {
       const categoriesJoined = categories.join(",");
@@ -175,7 +175,7 @@ router.post("/items", async function (req, res) {
     ) {
       const colorsJoined = colors.join(",");
       results = await db(
-        `SELECT * FROM items WHERE (color_id) IN (${colorsJoined}));`
+        `SELECT * FROM items WHERE (color_id) IN (${colorsJoined});`
       );
     } else if (
       (!categories || !categories.length) &&
@@ -183,7 +183,7 @@ router.post("/items", async function (req, res) {
     ) {
       const seasonsJoined = seasons.join(",");
       results = await db(
-        `SELECT * FROM items WHERE (season_id) IN (${seasonsJoined}));`
+        `SELECT * FROM items WHERE (season_id) IN (${seasonsJoined});`
       );
     } else {
       const categoriesJoined = categories.join(",");
@@ -243,7 +243,7 @@ router.delete("/items/:item_id", async function (req, res) {
     ) {
       const colorsJoined = colors.join(",");
       results = await db(
-        `SELECT * FROM items WHERE (color_id) IN (${colorsJoined}));`
+        `SELECT * FROM items WHERE (color_id) IN (${colorsJoined});`
       );
     } else if (
       (!categories || !categories.length) &&
@@ -251,7 +251,7 @@ router.delete("/items/:item_id", async function (req, res) {
     ) {
       const seasonsJoined = seasons.join(",");
       results = await db(
-        `SELECT * FROM items WHERE (season_id) IN (${seasonsJoined}));`
+        `SELECT * FROM items WHERE (season_id) IN (${seasonsJoined});`
       );
     } else {
       const categoriesJoined = categories.join(",");
