@@ -1,21 +1,14 @@
 import React from "react";
 
-export default function Category({
-  displayFilterList,
-  category,
-  handleChangeCheckedCategories,
-  // checked,
-}) {
+export default function Category({ category, handleChangeCheckedCategories }) {
   return (
-    <div className={!displayFilterList ? "hidden-content-list" : ""}>
+    <div>
       <input
         type="checkbox"
-        name="categories"
-        value={category.id}
+        id={`category:${category.id}`}
         onChange={handleChangeCheckedCategories}
-        //  value={checked}
       />
-      <label>{category.name}​</label>
+      <label htmlFor={category.name}>{category.name}​</label>
       {/* <span className="category" onClick={() => onClick(category.id)}>
         {category.name}​
       </span> */}

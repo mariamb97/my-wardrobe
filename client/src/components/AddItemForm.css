@@ -1,0 +1,17 @@
+#add-item-form {
+  padding: 3%;
+  text-align: center;
+  font-family: "Roboto Slab";
+}
+#input-url {
+  margin: 1%;
+}
+#input-category {
+  margin: 1%;
+}
+#input-color {
+  margin: 1%;
+}
+#input-season {
+  margin: 1%;
+}

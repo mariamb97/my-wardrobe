@@ -1,0 +1,63 @@
+.icon-sorted-list {
+  margin: 0.5%;
+  cursor: pointer;
+}
+.hidden-content-list {
+  visibility: hidden;
+}
+
+.collapsible-button {
+  padding: 1%;
+  width: 15%;
+  text-align: left;
+  font-size: 110%;
+  border: none;
+  background-color: #eee;
+  color: rgb(61, 47, 47);
+  /* cursor: pointer; */
+  /* outline: none; */
+}
+
+.active-collapsible-button {
+  background-color: #555;
+}
+
+.collapsible-content {
+  display: none;
+  overflow: hidden;
+  /* padding: 0 18px; */
+  /* background-color: #f1f1f1; */
+}
+
+#filter-list-button-container {
+  margin-top: 3%;
+  border-top: 3px solid rgb(7, 7, 7);
+  width: 16%;
+}
+
+.filter-list-button {
+  border: none;
+  padding: 5%;
+  margin: 4%;
+  margin-top: 10%;
+  font-size: 90%;
+}
+
+#reset-button {
+  width: 48%;
+  text-align: center;
+  background-color: #eee;
+  color: rgb(179, 160, 160);
+}
+.active-reset-button {
+  opacity: 0.5;
+}
+#done-button {
+  width: 35%;
+  text-align: center;
+  background-color: rgb(63, 50, 50);
+  color: whitesmoke;
+}
+.active-done-button {
+  opacity: 0.5;
+}

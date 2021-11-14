@@ -1,24 +1,23 @@
+h1 {
+  font-family: "Roboto Slab";
+  font-size: 45px;
+  text-align: center;
+  padding: 2%;
+  background-color: #eee;
+}
+
 /* #container {
   display: grid;
   grid-template-columns: auto auto auto auto;
   grid-template-rows: auto auto auto auto;
 } */
 
-.hidden-categories {
-  visibility: hidden;
-}
-.categories {
-  /* position: absolute; */
-
-  /* position: static; */
-}
-
-#container {
+#filter-and-items-container {
   position: relative;
 }
 
 #filterContainer {
-  /* position: relative; */
+  margin-left: 4%;
 }
 
 #itemsContainer {
@@ -27,18 +26,22 @@
   grid-column-gap: 2%;
   grid-row-gap: 2%;
   margin-top: 5%;
-  margin-left: 13%;
+  margin-left: 25%;
+  margin-right: 5%;
   position: absolute;
   top: 0;
   left: 0;
-
-  /* margin-left: 10%; */
 
   /* background-color: #2196f3; */
 }
 
 .item-image {
   object-fit: contain;
+  /* width: 75%;
+  height: 75%; */
   width: 180px;
   height: 180px;
 }
+
+/* width: 180px;
+height: 180px; */

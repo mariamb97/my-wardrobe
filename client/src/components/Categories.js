@@ -1,30 +1,51 @@
+import React, { useState } from "react";
 import Category from "./Category.js";
 import "./Categories.css";
 
 export default function Categories({
-  displayFilterList,
   categories,
   handleChangeCheckedCategories,
-  // checkedStateCategory,
 }) {
+  const [displayFilterListCategories, setDisplayFilterListCategories] =
+    useState(false);
+  const [mouseOverFilterCategories, setMouseOverFilterCategories] =
+    useState(false);
+
+  const handleClickDisplayFilterCategories = () => {
+    setDisplayFilterListCategories(!displayFilterListCategories);
+  };
   return (
     <div>
-      <h6 className={!displayFilterList ? "hidden-content-list" : ""}>
-        Categories:{" "}
-      </h6>
-      {categories.map((category) => {
-        return (
-          <Category
-            category={category}
-            key={category.id}
-            handleChangeCheckedCategories={() =>
-              handleChangeCheckedCategories(category.id)
-            }
-            displayFilterList={displayFilterList}
-            // checkedStateCategory={() => checkedStateCategory(category.id)}
-          ></Category>
-        );
-      })}
+      <button
+        type="button"
+        onClick={handleClickDisplayFilterCategories}
+        onMouseEnter={() => setMouseOverFilterCategories(true)}
+        onMouseLeave={() => setMouseOverFilterCategories(false)}
+        className={
+          !displayFilterListCategories
+            ? mouseOverFilterCategories
+              ? "collapsible-button active-collapsible-button"
+              : "collapsible-button"
+            : "collapsible-button active-collapsible-button"
+        }
+      >
+        Categories
+      </button>
+      <div
+        className={!displayFilterListCategories ? "collapsible-content" : ""}
+      >
+        {categories.map((category) => {
+          return (
+            <Category
+              category={category}
+              key={`category:${category.id}`}
+              handleChangeCheckedCategories={() =>
+                handleChangeCheckedCategories(category.id)
+              }
+            ></Category>
+          );
+        })}
+      </div>
     </div>
   );
 }

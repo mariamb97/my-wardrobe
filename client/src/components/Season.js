@@ -9,8 +9,7 @@ export default function Season({
     <div className={!displayFilterList ? "hidden-content-list" : ""}>
       <input
         type="checkbox"
-        // name="seasons"
-        // value={season.id}
+        id={`season:${season.id}`}
         onChange={handleChangeCheckedSeasons}
       />
       <label>{season.name}​</label>

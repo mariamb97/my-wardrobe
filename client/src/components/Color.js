@@ -10,7 +10,7 @@ export default function Color({
       <div className={!displayFilterList ? "hidden-content-list" : ""}>
         <input
           type="checkbox"
-          name={color.name}
+          id={`color:${color.id}`}
           onChange={handleChangeCheckedColors}
         />
         <label>{color.name}​</label>

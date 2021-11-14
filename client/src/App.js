@@ -8,7 +8,6 @@ function App() {
   const [colors, setColors] = useState([]);
   const [seasons, setSeasons] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [displayFilterList, setDisplayFilterList] = useState(false);
   const [filteredItems, setFilteredItems] = useState([]);
   const [checkedStateCategories, setCheckedStateCategories] = useState({});
   const [checkedStateColors, setCheckedStateColors] = useState({});
@@ -86,10 +85,6 @@ function App() {
       });
   };
 
-  const handleIconClick = () => {
-    setDisplayFilterList(!displayFilterList);
-  };
-
   // const handleChangeCheckedCategories = (categoryId) => {
   //   const { categories } = checkedStateFilters;
   //   if (!checkedStateFilters[categoryId]) {
@@ -110,11 +105,22 @@ function App() {
   // };
 
   const handleChangeCheckedCategories = (categoryId) => {
-    if (!checkedStateCategories[categoryId]) {
-      setCheckedStateCategories((state) => ({ ...state, [categoryId]: true }));
-    } else {
-      setCheckedStateCategories((state) => ({ ...state, [categoryId]: false }));
-    }
+    setCheckedStateCategories((prevCheckedStateCategories) => {
+      let newCheckedStateCategories;
+      if (!prevCheckedStateCategories[categoryId]) {
+        newCheckedStateCategories = {
+          ...prevCheckedStateCategories,
+          [categoryId]: true,
+        };
+      } else {
+        newCheckedStateCategories = {
+          ...prevCheckedStateCategories,
+          [categoryId]: false,
+        };
+      }
+      console.log(newCheckedStateCategories);
+      return newCheckedStateCategories;
+    });
   };
 
   const handleChangeCheckedColors = (colorId) => {
@@ -157,8 +163,22 @@ function App() {
       .then((data) => setFilteredItems(data));
   };
 
+  // const refreshItems = () => {
+  //   return [];
+  // };
+
+  const handleClickResetForm = (event) => {
+    //  event.preventDefault();
+
+    setCheckedStateCategories({});
+    setCheckedStateColors({});
+    setCheckedStateSeasons({});
+    // console.log(event);
+  };
+
   return (
     <div>
+      <h1>Maria's closet</h1>
       <AddItemForm
         categories={categories}
         colors={colors}
@@ -169,11 +189,9 @@ function App() {
         setFilteredItems={setFilteredItems}
       />
 
-      <div id="container">
+      <div id="filter-and-items-container">
         <div id="filterContainer">
           <FilterList
-            handleIconClick={handleIconClick}
-            displayFilterList={displayFilterList}
             categories={categories}
             handleChangeCheckedCategories={(categoryId) =>
               handleChangeCheckedCategories(categoryId)
@@ -186,6 +204,7 @@ function App() {
             handleChangeCheckedSeasons={(seasonId) =>
               handleChangeCheckedSeasons(seasonId)
             }
+            handleClickResetForm={handleClickResetForm}
           ></FilterList>
         </div>
         <div id="itemsContainer">
