@@ -5,6 +5,7 @@ export default function Seasons({
   displayFilterList,
   seasons,
   handleChangeCheckedSeasons,
+  checkedStateSeasons,
 }) {
   const [displayFilterListSeasons, setDisplayFilterListSeasons] =
     useState(false);
@@ -44,6 +45,7 @@ export default function Seasons({
                 handleChangeCheckedSeasons(season.id)
               }
               displayFilterList={displayFilterList}
+              isChecked={checkedStateSeasons[season.id]}
             ></Season>
           );
         })}

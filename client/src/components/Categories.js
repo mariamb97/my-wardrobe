@@ -5,6 +5,7 @@ import "./Categories.css";
 export default function Categories({
   categories,
   handleChangeCheckedCategories,
+  checkedStateCategories,
 }) {
   const [displayFilterListCategories, setDisplayFilterListCategories] =
     useState(false);
@@ -39,6 +40,7 @@ export default function Categories({
             <Category
               category={category}
               key={`category:${category.id}`}
+              isChecked={checkedStateCategories[category.id]}
               handleChangeCheckedCategories={() =>
                 handleChangeCheckedCategories(category.id)
               }

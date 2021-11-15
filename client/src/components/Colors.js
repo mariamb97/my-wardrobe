@@ -5,6 +5,7 @@ export default function Colors({
   displayFilterList,
   colors,
   handleChangeCheckedColors,
+  checkedStateColors,
 }) {
   const [displayFilterListColors, setDisplayFilterListColors] = useState(false);
   const [mouseOverFilterColors, setMouseOverFilterColors] = useState(false);
@@ -41,6 +42,7 @@ export default function Colors({
               handleChangeCheckedColors={() =>
                 handleChangeCheckedColors(color.id)
               }
+              isChecked={checkedStateColors[color.id]}
               displayFilterList={displayFilterList}
             ></Color>
           );

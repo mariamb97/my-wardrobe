@@ -8,10 +8,13 @@ import "./FilterList.css";
 
 export default function FilterList({
   categories,
+  checkedStateCategories,
   handleChangeCheckedCategories,
   colors,
+  checkedStateColors,
   handleChangeCheckedColors,
   seasons,
+  checkedStateSeasons,
   handleChangeCheckedSeasons,
   handleClickResetForm,
 }) {
@@ -25,7 +28,7 @@ export default function FilterList({
   };
 
   return (
-    <div>
+    <div id="filter-list">
       <div>
         {displayFilterList ? (
           <img
@@ -53,6 +56,7 @@ export default function FilterList({
           handleChangeCheckedCategories={(categoryId) =>
             handleChangeCheckedCategories(categoryId)
           }
+          checkedStateCategories={checkedStateCategories}
         ></Categories>
         <Colors
           displayFilterList={displayFilterList}
@@ -60,6 +64,7 @@ export default function FilterList({
           handleChangeCheckedColors={(colorId) =>
             handleChangeCheckedColors(colorId)
           }
+          checkedStateColors={checkedStateColors}
         ></Colors>
         <Seasons
           displayFilterList={displayFilterList}
@@ -67,6 +72,7 @@ export default function FilterList({
           handleChangeCheckedSeasons={(seasonId) =>
             handleChangeCheckedSeasons(seasonId)
           }
+          checkedStateSeasons={checkedStateSeasons}
         ></Seasons>
         <div id="filter-list-button-container">
           <button
@@ -74,7 +80,6 @@ export default function FilterList({
             id="reset-button"
             onMouseEnter={() => setMouseOverFormResetButton(true)}
             onMouseLeave={() => setMouseOverFormResetButton(false)}
-            onReset={handleClickResetForm}
             className={
               mouseOverFormResetButton
                 ? "active-reset-button filter-list-button"

@@ -4,15 +4,20 @@ export default function Season({
   displayFilterList,
   season,
   handleChangeCheckedSeasons,
+  isChecked,
 }) {
   return (
-    <div className={!displayFilterList ? "hidden-content-list" : ""}>
-      <input
-        type="checkbox"
-        id={`season:${season.id}`}
-        onChange={handleChangeCheckedSeasons}
-      />
-      <label>{season.name}​</label>
+    <div>
+      <label className="container-checkboxes">
+        {season.name}
+        <input
+          type="checkbox"
+          id={`season:${season.id}`}
+          checked={isChecked}
+          onChange={handleChangeCheckedSeasons}
+        />
+        <span className="checkmark"></span>​
+      </label>
     </div>
   );
 }

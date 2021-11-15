@@ -168,12 +168,10 @@ function App() {
   // };
 
   const handleClickResetForm = (event) => {
-    //  event.preventDefault();
-
+    event.preventDefault();
     setCheckedStateCategories({});
     setCheckedStateColors({});
     setCheckedStateSeasons({});
-    // console.log(event);
   };
 
   return (
@@ -193,14 +191,17 @@ function App() {
         <div id="filterContainer">
           <FilterList
             categories={categories}
+            checkedStateCategories={checkedStateCategories}
             handleChangeCheckedCategories={(categoryId) =>
               handleChangeCheckedCategories(categoryId)
             }
             colors={colors}
+            checkedStateColors={checkedStateColors}
             handleChangeCheckedColors={(colorId) =>
               handleChangeCheckedColors(colorId)
             }
             seasons={seasons}
+            checkedStateSeasons={checkedStateSeasons}
             handleChangeCheckedSeasons={(seasonId) =>
               handleChangeCheckedSeasons(seasonId)
             }

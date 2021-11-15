@@ -11,7 +11,7 @@ export default function AddItemForm({
   setFilteredItems,
 }) {
   const [input, setInput] = useState({
-    category_id: 1,
+    category_id: 0,
     color_id: 1,
     season_id: 1,
     image: "",
@@ -86,65 +86,79 @@ export default function AddItemForm({
 
   return (
     <form onSubmit={handleSubmit} id="add-item-form">
-      <label id="input-url-label">
-        Add image URL:
-        <input
-          value={input.image}
-          name="image"
-          onChange={(event) => handleInputChange(event)}
-        />
-      </label>
-      <label id="input-category-label">
-        Select a category:
-        <select
-          name="category_id"
-          value={input.category_id}
-          id="input-category"
-          onChange={(event) => handleInputChange(event)}
-        >
-          {categories.map((category) => {
-            return (
-              <option value={category.id} key={category.id}>
-                {category.name}
-              </option>
-            );
-          })}
-        </select>
-      </label>
-      <label id="input-color-label">
-        Color:
-        <select
-          name="color_id"
-          value={input.color_id}
-          id="input-color"
-          onChange={(event) => handleInputChange(event)}
-        >
-          {colors.map((color) => {
-            return (
-              <option value={color.id} key={color.id}>
-                {color.name}
-              </option>
-            );
-          })}
-        </select>
-      </label>
-      <label id="input-season-label">
-        Season:
-        <select
-          name="season_id"
-          value={input.season_id}
-          id="input-season"
-          onChange={(event) => handleInputChange(event)}
-        >
-          {seasons.map((season) => {
-            return (
-              <option value={season.id} key={season.id}>
-                {season.name}
-              </option>
-            );
-          })}
-        </select>
-      </label>
+      <div>
+        <label id="input-url-container">
+          Add image URL:
+          <input
+            type="url"
+            name="image"
+            value={input.image}
+            id="input-url"
+            onChange={(event) => handleInputChange(event)}
+            required
+          />
+        </label>
+      </div>
+
+      <div>
+        <label id="input-category-container">
+          Select a category:
+          <select
+            name="category_id"
+            value={input.category_id}
+            id="input-category"
+            onChange={(event) => handleInputChange(event)}
+            required
+          >
+            {categories.map((category) => {
+              return (
+                <option value={category.id} key={category.id}>
+                  {category.name}
+                </option>
+              );
+            })}
+          </select>
+        </label>
+      </div>
+
+      <div>
+        {" "}
+        <label className="item-select" id="input-color-container">
+          Color:
+          <select
+            name="color_id"
+            value={input.color_id}
+            id="input-color"
+            onChange={(event) => handleInputChange(event)}
+            required
+          >
+            {colors.map((color) => {
+              return (
+                <option value={color.id} key={color.id}>
+                  {color.name}
+                </option>
+              );
+            })}
+          </select>
+        </label>
+        <label id="input-season-container">
+          Season:
+          <select
+            name="season_id"
+            value={input.season_id}
+            id="input-season"
+            onChange={(event) => handleInputChange(event)}
+          >
+            {seasons.map((season) => {
+              return (
+                <option value={season.id} key={season.id}>
+                  {season.name}
+                </option>
+              );
+            })}
+          </select>
+        </label>
+      </div>
       <button id="submit-button">Submit</button>
     </form>
   );

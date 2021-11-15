@@ -4,17 +4,20 @@ export default function Color({
   displayFilterList,
   color,
   handleChangeCheckedColors,
+  isChecked,
 }) {
   return (
     <div>
-      <div className={!displayFilterList ? "hidden-content-list" : ""}>
+      <label className="container-checkboxes">
+        {color.name}
         <input
           type="checkbox"
           id={`color:${color.id}`}
+          checked={isChecked}
           onChange={handleChangeCheckedColors}
         />
-        <label>{color.name}​</label>
-      </div>
+        <span className="checkmark"></span>​
+      </label>
     </div>
   );
 }
