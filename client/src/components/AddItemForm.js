@@ -11,7 +11,7 @@ export default function AddItemForm({
   setFilteredItems,
 }) {
   const [input, setInput] = useState({
-    category_id: 0,
+    category_id: 1,
     color_id: 1,
     season_id: 1,
     image: "",
@@ -28,8 +28,6 @@ export default function AddItemForm({
   };
 
   const addItem = async () => {
-    // let filterPath = "";
-
     const filterQueryString = Object.keys(checkedStateCategories)
       .filter((category) => checkedStateCategories[category])
       .map((category) => `categories[]=${category}`)
@@ -45,21 +43,6 @@ export default function AddItemForm({
       )
       .join("&");
 
-    // for (const property in checkedStateCategories) {
-    //   if (checkedStateCategories[property]) {
-    //     filterPath += `categories[]=${property}&`;
-    //   }
-    // }
-    // for (const property in checkedStateColors) {
-    //   if (checkedStateColors[property]) {
-    //     filterPath += `colors[]=${property}&`;
-    //   }
-    // }
-    // for (const property in checkedStateSeasons) {
-    //   if (checkedStateSeasons[property]) {
-    //     filterPath += `seasons[]=${property}&`;
-    //   }
-    // }
     try {
       const { category_id, color_id, season_id, image } = input;
       const response = await fetch(`/api/items/?${filterQueryString}`, {
@@ -67,15 +50,12 @@ export default function AddItemForm({
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(
-          //  input
-          {
-            category_id: category_id,
-            color_id: color_id,
-            season_id: season_id,
-            image: image,
-          }
-        ),
+        body: JSON.stringify({
+          category_id: category_id,
+          color_id: color_id,
+          season_id: season_id,
+          image: image,
+        }),
       });
       const data = await response.json();
       setFilteredItems(data);

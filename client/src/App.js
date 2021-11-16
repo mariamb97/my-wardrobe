@@ -12,6 +12,8 @@ function App() {
   const [checkedStateCategories, setCheckedStateCategories] = useState({});
   const [checkedStateColors, setCheckedStateColors] = useState({});
   const [checkedStateSeasons, setCheckedStateSeasons] = useState({});
+
+  // this is an idea I had, instead of storing the 3 checkedStates in 3 different empty objects, do it in only one object containing that properties
   // const [checkedStateFilters, setCheckedStateFilters] = useState({
   //   categories: {},
   //   colors: {},
@@ -59,23 +61,24 @@ function App() {
   };
 
   const getFilteredItems = () => {
-    let filterPath = "";
+    let filterQueryString = "";
     for (const property in checkedStateCategories) {
       if (checkedStateCategories[property]) {
-        filterPath += `categories[]=${property}&`;
+        filterQueryString += `categories[]=${property}&`;
       }
     }
     for (const property in checkedStateColors) {
       if (checkedStateColors[property]) {
-        filterPath += `colors[]=${property}&`;
+        filterQueryString += `colors[]=${property}&`;
       }
     }
     for (const property in checkedStateSeasons) {
       if (checkedStateSeasons[property]) {
-        filterPath += `seasons[]=${property}&`;
+        filterQueryString += `seasons[]=${property}&`;
       }
     }
-    fetch(`/api/items/?${filterPath}`)
+
+    fetch(`/api/items/?${filterQueryString}`)
       .then((response) => response.json())
       .then((items) => {
         setFilteredItems(items);
@@ -84,25 +87,6 @@ function App() {
         console.log(error);
       });
   };
-
-  // const handleChangeCheckedCategories = (categoryId) => {
-  //   const { categories } = checkedStateFilters;
-  //   if (!checkedStateFilters[categoryId]) {
-  //     setCheckedStateFilters((state) => ({
-  //       ...state[categories],
-  //       categories: {
-  //         [categoryId]: true,
-  //       },
-  //     }));
-  //   } else {
-  //     setCheckedStateFilters((state) => ({
-  //       ...state[categories],
-  //       categories: {
-  //         [categoryId]: false,
-  //       },
-  //     }));
-  //   }
-  // };
 
   const handleChangeCheckedCategories = (categoryId) => {
     setCheckedStateCategories((prevCheckedStateCategories) => {
@@ -118,7 +102,6 @@ function App() {
           [categoryId]: false,
         };
       }
-      console.log(newCheckedStateCategories);
       return newCheckedStateCategories;
     });
   };
@@ -140,32 +123,28 @@ function App() {
   };
 
   const deleteItem = (id) => {
-    let filterPath = "";
+    let filterQueryString = "";
     for (const property in checkedStateCategories) {
       if (checkedStateCategories[property]) {
-        filterPath += `categories[]=${property}&`;
+        filterQueryString += `categories[]=${property}&`;
       }
     }
     for (const property in checkedStateColors) {
       if (checkedStateColors[property]) {
-        filterPath += `colors[]=${property}&`;
+        filterQueryString += `colors[]=${property}&`;
       }
     }
     for (const property in checkedStateSeasons) {
       if (checkedStateSeasons[property]) {
-        filterPath += `seasons[]=${property}&`;
+        filterQueryString += `seasons[]=${property}&`;
       }
     }
-    fetch(`/api/items/${id}/?${filterPath}`, {
+    fetch(`/api/items/${id}/?${filterQueryString}`, {
       method: "DELETE",
     })
       .then((res) => res.json())
       .then((data) => setFilteredItems(data));
   };
-
-  // const refreshItems = () => {
-  //   return [];
-  // };
 
   const handleClickResetForm = (event) => {
     event.preventDefault();

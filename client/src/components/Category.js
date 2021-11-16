@@ -5,13 +5,8 @@ export default function Category({
   handleChangeCheckedCategories,
   isChecked,
 }) {
-  // const [mouseOverCategoryInput, setMouseOverCategoryInput] = useState(false);
-
   return (
-    <div
-    // onMouseEnter={() => setMouseOverCategoryInput(true)}
-    // onMouseLeave={() => setMouseOverCategoryInput(false)}
-    >
+    <div>
       <label className="container-checkboxes">
         {category.name}
         <input
@@ -22,9 +17,6 @@ export default function Category({
         />
         <span className="checkmark"></span>
       </label>
-      {/* <span className="category" onClick={() => onClick(category.id)}>
-        {category.name}​
-      </span> */}
     </div>
   );
 }

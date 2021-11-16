@@ -1,11 +1,6 @@
 import React from "react";
 
-export default function Color({
-  displayFilterList,
-  color,
-  handleChangeCheckedColors,
-  isChecked,
-}) {
+export default function Color({ color, handleChangeCheckedColors, isChecked }) {
   return (
     <div>
       <label className="container-checkboxes">

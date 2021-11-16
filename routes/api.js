@@ -44,6 +44,13 @@ router.get("/items", async function (req, res) {
       (!seasons || !seasons.length)
     ) {
       results = await db("SELECT * FROM items ORDER BY id ASC;");
+    } else if (categories && colors && seasons) {
+      const categoriesJoined = categories.join(",");
+      const colorsJoined = colors.join(",");
+      const seasonsJoined = seasons.join(",");
+      results = await db(
+        `SELECT * FROM items WHERE (category_id) IN (${categoriesJoined}) AND (color_id) IN (${colorsJoined}) AND (season_id) IN (${seasonsJoined});`
+      );
     } else if (categories && colors) {
       const categoriesJoined = categories.join(",");
       const colorsJoined = colors.join(",");
@@ -82,13 +89,6 @@ router.get("/items", async function (req, res) {
       const seasonsJoined = seasons.join(",");
       results = await db(
         `SELECT * FROM items WHERE (season_id) IN (${seasonsJoined});`
-      );
-    } else {
-      const categoriesJoined = categories.join(",");
-      const colorsJoined = colors.join(",");
-      const seasonsJoined = seasons.join(",");
-      results = await db(
-        `SELECT * FROM items WHERE (category_id) IN (${categoriesJoined}) AND (color_id) IN (${colorsJoined} AND (season_id) IN (${seasonsJoined});`
       );
     }
 

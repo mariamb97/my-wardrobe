@@ -51,7 +51,6 @@ export default function FilterList({
         className={!displayFilterList ? "hidden-content-list" : ""}
       >
         <Categories
-          displayFilterList={displayFilterList}
           categories={categories}
           handleChangeCheckedCategories={(categoryId) =>
             handleChangeCheckedCategories(categoryId)
@@ -59,7 +58,6 @@ export default function FilterList({
           checkedStateCategories={checkedStateCategories}
         ></Categories>
         <Colors
-          displayFilterList={displayFilterList}
           colors={colors}
           handleChangeCheckedColors={(colorId) =>
             handleChangeCheckedColors(colorId)
@@ -67,7 +65,6 @@ export default function FilterList({
           checkedStateColors={checkedStateColors}
         ></Colors>
         <Seasons
-          displayFilterList={displayFilterList}
           seasons={seasons}
           handleChangeCheckedSeasons={(seasonId) =>
             handleChangeCheckedSeasons(seasonId)

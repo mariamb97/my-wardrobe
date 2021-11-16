@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Season from "./Season.js";
 
 export default function Seasons({
-  displayFilterList,
   seasons,
   handleChangeCheckedSeasons,
   checkedStateSeasons,
@@ -23,15 +22,12 @@ export default function Seasons({
         onMouseEnter={() => setMouseOverFilterSeasons(true)}
         onMouseLeave={() => setMouseOverFilterSeasons(false)}
         className={
-          displayFilterList
-            ? !displayFilterListSeasons
-              ? mouseOverFilterSeasons
-                ? "collapsible-button active-collapsible-button"
-                : "collapsible-button"
-              : "collapsible-button active-collapsible-button"
-            : "hidden-content-list"
+          !displayFilterListSeasons
+            ? mouseOverFilterSeasons
+              ? "collapsible-button active-collapsible-button"
+              : "collapsible-button"
+            : "collapsible-button active-collapsible-button"
         }
-        // className={mouseOverFilterSeasons ? "active-collapsible-button" : ""}
       >
         Seasons
       </button>
@@ -44,7 +40,6 @@ export default function Seasons({
               handleChangeCheckedSeasons={() =>
                 handleChangeCheckedSeasons(season.id)
               }
-              displayFilterList={displayFilterList}
               isChecked={checkedStateSeasons[season.id]}
             ></Season>
           );

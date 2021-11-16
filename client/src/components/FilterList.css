@@ -14,19 +14,15 @@
   border: none;
   background-color: #eee;
   color: rgb(61, 47, 47);
-  /* cursor: pointer; */
-  /* outline: none; */
 }
 
 .active-collapsible-button {
-  background-color: #555;
+  background-color: #c0c0c0;
 }
 
 .collapsible-content {
   display: none;
   overflow: hidden;
-  /* padding: 0 18px; */
-  /* background-color: #f1f1f1; */
 }
 
 .container-checkboxes {
@@ -87,14 +83,6 @@
   -ms-transform: rotate(45deg);
   transform: rotate(45deg);
 }
-
-/* .active-checkmark {
-  background-color: rgb(138, 37, 37);
-}
-
-.checked {
-  background-color: rgb(138, 37, 37);
-} */
 
 #filter-list-button-container {
   margin-top: 3%;

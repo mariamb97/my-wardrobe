@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Color from "./Color.js";
 
 export default function Colors({
-  displayFilterList,
   colors,
   handleChangeCheckedColors,
   checkedStateColors,
@@ -22,13 +21,11 @@ export default function Colors({
         onMouseEnter={() => setMouseOverFilterColors(true)}
         onMouseLeave={() => setMouseOverFilterColors(false)}
         className={
-          displayFilterList
-            ? !displayFilterListColors
-              ? mouseOverFilterColors
-                ? "collapsible-button active-collapsible-button"
-                : "collapsible-button"
-              : "collapsible-button active-collapsible-button"
-            : "hidden-content-list"
+          !displayFilterListColors
+            ? mouseOverFilterColors
+              ? "collapsible-button active-collapsible-button"
+              : "collapsible-button"
+            : "collapsible-button active-collapsible-button"
         }
       >
         Colors
@@ -43,7 +40,6 @@ export default function Colors({
                 handleChangeCheckedColors(color.id)
               }
               isChecked={checkedStateColors[color.id]}
-              displayFilterList={displayFilterList}
             ></Color>
           );
         })}
