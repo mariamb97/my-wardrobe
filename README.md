@@ -34,3 +34,8 @@ In the MySQL CLI, type `create database my_wardrobe;` to create a database in My
 - `colors` contains 12 rows
 - `seasons` contains 4 rows
   Check all them in the database to see the structure.
+  Thay means that the only table that you have to fill is the `items` table (I added in the proyect folder an image folder that contains the URL's of the images I already used)
+
+## Support
+
+Feel free to ask me any doubt :)
