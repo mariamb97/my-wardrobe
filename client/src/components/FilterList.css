@@ -1,23 +1,28 @@
 .icon-sorted-list {
-  margin: 0.5%;
+  margin: 0.5% 0% 0.5% 75%;
   cursor: pointer;
 }
 .hidden-content-list {
   visibility: hidden;
 }
+#collapsible-button-container {
+  margin: 1% 0% 6% 5%;
+}
 
 .collapsible-button {
-  padding: 1%;
-  width: 15%;
+  padding: 6.5%;
+  width: 90%;
   text-align: left;
-  font-size: 110%;
+  font-size: 105%;
+  font-weight: bold;
   border: none;
-  background-color: #eee;
-  color: rgb(61, 47, 47);
+  background-color: #fdddc8;
+  color: #685044;
 }
 
 .active-collapsible-button {
-  background-color: #c0c0c0;
+  background-color: #fff0e7;
+  color: rgb(49, 28, 10);
 }
 
 .collapsible-content {
@@ -31,7 +36,7 @@
   padding-left: 35px;
   margin-bottom: 12px;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 93%;
   /* -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -51,11 +56,11 @@
   left: 5px;
   height: 15px;
   width: 15px;
-  background-color: rgb(136, 99, 99);
+  background-color: #f95738;
 }
 
 .container-checkboxes:hover input ~ .checkmark {
-  background-color: brown;
+  background-color: #fff0e7;
 }
 .container-checkboxes input:checked ~ .checkmark {
   background-color: #2196f3;
@@ -86,33 +91,33 @@
 
 #filter-list-button-container {
   margin-top: 3%;
-  border-top: 3px solid rgb(7, 7, 7);
-  width: 16%;
+  border-top: 3px solid #685044;
+  width: 95%;
 }
 
 .filter-list-button {
   border: none;
   padding: 5%;
-  margin: 4%;
+  margin: 3%;
   margin-top: 10%;
-  font-size: 90%;
+  font-size: 80%;
 }
 
 #reset-button {
-  width: 48%;
+  width: 50%;
   text-align: center;
-  background-color: #eee;
-  color: rgb(179, 160, 160);
+  background-color: #e6b89c;
+  color: #685044;
 }
 .active-reset-button {
-  opacity: 0.5;
+  opacity: 0.7;
 }
 #done-button {
   width: 35%;
   text-align: center;
-  background-color: rgb(63, 50, 50);
+  background-color: #f95738;
   color: whitesmoke;
 }
 .active-done-button {
-  opacity: 0.5;
+  opacity: 0.7;
 }

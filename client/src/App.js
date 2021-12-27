@@ -1,8 +1,10 @@
 import "./App.css";
 import React, { useEffect, useState } from "react";
+import NavBar from "./components/NavBar.js";
 import FilterList from "./components/FilterList.js";
 import Item from "./components/Item.js";
 import AddItemForm from "./components/AddItemForm";
+
 
 function App() {
   const [colors, setColors] = useState([]);
@@ -12,6 +14,8 @@ function App() {
   const [checkedStateCategories, setCheckedStateCategories] = useState({});
   const [checkedStateColors, setCheckedStateColors] = useState({});
   const [checkedStateSeasons, setCheckedStateSeasons] = useState({});
+  const [displayFilterList, setDisplayFilterList] = useState(false);
+  const [showAddItemForm, setShowAddItemForm] = useState(false)
 
   // this is an idea I had, instead of storing the 3 checkedStates in 3 different empty objects, do it in only one object containing that properties
   // const [checkedStateFilters, setCheckedStateFilters] = useState({
@@ -146,6 +150,10 @@ function App() {
       .then((data) => setFilteredItems(data));
   };
 
+  const handleIconClick = () => {
+    setDisplayFilterList(!displayFilterList);
+  };
+
   const handleClickResetForm = (event) => {
     event.preventDefault();
     setCheckedStateCategories({});
@@ -153,52 +161,57 @@ function App() {
     setCheckedStateSeasons({});
   };
 
+
   return (
     <div>
-      <h1>Maria's closet</h1>
-      <AddItemForm
-        categories={categories}
-        colors={colors}
-        seasons={seasons}
-        checkedStateCategories={checkedStateCategories}
-        checkedStateColors={checkedStateColors}
-        checkedStateSeasons={checkedStateSeasons}
-        setFilteredItems={setFilteredItems}
-      />
+      <NavBar showAddItemForm={showAddItemForm} setShowAddItemForm={setShowAddItemForm} />
+      {!showAddItemForm ?
+        <div id="filter-and-items-container">
+          <div className="items-container">
+            {filteredItems.map((item) => {
+              return (
+                <Item
+                  item={item}
+                  key={item.id}
+                  onClick={(id) => deleteItem(id)}
+                ></Item>
+              );
+            })}
+          </div>
+          <div className="filter-container">
 
-      <div id="filter-and-items-container">
-        <div id="filterContainer">
-          <FilterList
-            categories={categories}
-            checkedStateCategories={checkedStateCategories}
-            handleChangeCheckedCategories={(categoryId) =>
-              handleChangeCheckedCategories(categoryId)
-            }
-            colors={colors}
-            checkedStateColors={checkedStateColors}
-            handleChangeCheckedColors={(colorId) =>
-              handleChangeCheckedColors(colorId)
-            }
-            seasons={seasons}
-            checkedStateSeasons={checkedStateSeasons}
-            handleChangeCheckedSeasons={(seasonId) =>
-              handleChangeCheckedSeasons(seasonId)
-            }
-            handleClickResetForm={handleClickResetForm}
-          ></FilterList>
-        </div>
-        <div id="itemsContainer">
-          {filteredItems.map((item) => {
-            return (
-              <Item
-                item={item}
-                key={item.id}
-                onClick={(id) => deleteItem(id)}
-              ></Item>
-            );
-          })}
-        </div>
-      </div>
+            <FilterList
+              displayFilterList={displayFilterList}
+              handleIconClick={handleIconClick}
+              categories={categories}
+              checkedStateCategories={checkedStateCategories}
+              handleChangeCheckedCategories={(categoryId) =>
+                handleChangeCheckedCategories(categoryId)
+              }
+              colors={colors}
+              checkedStateColors={checkedStateColors}
+              handleChangeCheckedColors={(colorId) =>
+                handleChangeCheckedColors(colorId)
+              }
+              seasons={seasons}
+              checkedStateSeasons={checkedStateSeasons}
+              handleChangeCheckedSeasons={(seasonId) =>
+                handleChangeCheckedSeasons(seasonId)
+              }
+              handleClickResetForm={handleClickResetForm}
+            ></FilterList>
+          </div>
+        </div> :
+        <AddItemForm
+          categories={categories}
+          colors={colors}
+          seasons={seasons}
+          checkedStateCategories={checkedStateCategories}
+          checkedStateColors={checkedStateColors}
+          checkedStateSeasons={checkedStateSeasons}
+          setFilteredItems={setFilteredItems}
+        />
+      }
     </div>
   );
 }
