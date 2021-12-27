@@ -14,7 +14,9 @@ CREATE TABLE `items` (
 	`color_id` INT NOT NULL,
 	`season_id` INT NOT NULL,
 	`image` varchar(400) NOT NULL,
-	PRIMARY KEY (`id`)
+	PRIMARY KEY (`id`),
+	 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
 DROP TABLE if exists `colors`;
@@ -32,6 +34,7 @@ CREATE TABLE `seasons` (
 	`name` varchar(100) NOT NULL,
 	PRIMARY KEY (`id`)
 );
+
 
 ALTER TABLE `items` ADD CONSTRAINT `items_fk0` FOREIGN KEY (`category_id`) REFERENCES `categories`(`id`);
 

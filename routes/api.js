@@ -25,36 +25,36 @@ router.get("/items", async function (req, res) {
       (!colors || !colors.length) &&
       (!seasons || !seasons.length)
     ) {
-      results = await db("SELECT * FROM items ORDER BY id ASC;");
+      results = await db("SELECT * FROM items ORDER BY (created_at) DESC;");
     } else if (categories && colors && seasons) {
       const categoriesJoined = categories.join(",");
       const colorsJoined = colors.join(",");
       const seasonsJoined = seasons.join(",");
       results = await db(
-        `SELECT * FROM items WHERE (category_id) IN (${categoriesJoined}) AND (color_id) IN (${colorsJoined}) AND (season_id) IN (${seasonsJoined});`
+        `SELECT * FROM items WHERE (category_id) IN (${categoriesJoined}) AND (color_id) IN (${colorsJoined}) AND (season_id) IN (${seasonsJoined}) ORDER BY (created_at) DESC;`
       );
     } else if (categories && colors) {
       const categoriesJoined = categories.join(",");
       const colorsJoined = colors.join(",");
       results = await db(
-        `SELECT * FROM items WHERE (category_id) IN (${categoriesJoined}) AND (color_id) IN (${colorsJoined});`
+        `SELECT * FROM items WHERE (category_id) IN (${categoriesJoined}) AND (color_id) IN (${colorsJoined}) ORDER BY (created_at) DESC;`
       );
     } else if (categories && seasons) {
       const categoriesJoined = categories.join(",");
       const seasonsJoined = seasons.join(",");
       results = await db(
-        `SELECT * FROM items WHERE (category_id) IN (${categoriesJoined}) AND (season_id) IN (${seasonsJoined});`
+        `SELECT * FROM items WHERE (category_id) IN (${categoriesJoined}) AND (season_id) IN (${seasonsJoined}) ORDER BY (created_at) DESC;`
       );
     } else if (colors && seasons) {
       const colorsJoined = colors.join(",");
       const seasonsJoined = seasons.join(",");
       results = await db(
-        `SELECT * FROM items WHERE (color_id) IN (${colorsJoined}) AND (season_id) IN (${seasonsJoined});`
+        `SELECT * FROM items WHERE (color_id) IN (${colorsJoined}) AND (season_id) IN (${seasonsJoined}) ORDER BY (created_at) DESC;`
       );
     } else if ((!colors || !colors.length) && (!seasons || !seasons.length)) {
       const categoriesJoined = categories.join(",");
       results = await db(
-        `SELECT * FROM items WHERE (category_id) IN (${categoriesJoined});`
+        `SELECT * FROM items WHERE (category_id) IN (${categoriesJoined}) ORDER BY (created_at) DESC;`
       );
     } else if (
       (!categories || !categories.length) &&
@@ -62,7 +62,7 @@ router.get("/items", async function (req, res) {
     ) {
       const colorsJoined = colors.join(",");
       results = await db(
-        `SELECT * FROM items WHERE (color_id) IN (${colorsJoined});`
+        `SELECT * FROM items WHERE (color_id) IN (${colorsJoined}) ORDER BY (created_at) DESC;`
       );
     } else if (
       (!categories || !categories.length) &&
@@ -70,7 +70,7 @@ router.get("/items", async function (req, res) {
     ) {
       const seasonsJoined = seasons.join(",");
       results = await db(
-        `SELECT * FROM items WHERE (season_id) IN (${seasonsJoined});`
+        `SELECT * FROM items WHERE (season_id) IN (${seasonsJoined}) ORDER BY (created_at) DESC;`
       );
     }
 
@@ -127,29 +127,29 @@ router.post("/items", async function (req, res) {
       (!colors || !colors.length) &&
       (!seasons || !seasons.length)
     ) {
-      results = await db("SELECT * FROM items ORDER BY id ASC;");
+      results = await db("SELECT * FROM items ORDER BY (created_at) DESC;");
     } else if (categories && colors) {
       const categoriesJoined = categories.join(",");
       const colorsJoined = colors.join(",");
       results = await db(
-        `SELECT * FROM items WHERE (category_id) IN (${categoriesJoined}) AND (color_id) IN (${colorsJoined});`
+        `SELECT * FROM items WHERE (category_id) IN (${categoriesJoined}) AND (color_id) IN (${colorsJoined}) ORDER BY (created_at) DESC;`
       );
     } else if (categories && seasons) {
       const categoriesJoined = categories.join(",");
       const seasonsJoined = seasons.join(",");
       results = await db(
-        `SELECT * FROM items WHERE (category_id) IN (${categoriesJoined}) AND (season_id) IN (${seasonsJoined});`
+        `SELECT * FROM items WHERE (category_id) IN (${categoriesJoined}) AND (season_id) IN (${seasonsJoined}) ORDER BY (created_at) DESC;`
       );
     } else if (colors && seasons) {
       const colorsJoined = colors.join(",");
       const seasonsJoined = seasons.join(",");
       results = await db(
-        `SELECT * FROM items WHERE (color_id) IN (${colorsJoined}) AND (season_id) IN (${seasonsJoined});`
+        `SELECT * FROM items WHERE (color_id) IN (${colorsJoined}) AND (season_id) IN (${seasonsJoined}) ORDER BY (created_at) DESC;`
       );
     } else if ((!colors || !colors.length) && (!seasons || !seasons.length)) {
       const categoriesJoined = categories.join(",");
       results = await db(
-        `SELECT * FROM items WHERE (category_id) IN (${categoriesJoined});`
+        `SELECT * FROM items WHERE (category_id) IN (${categoriesJoined}) ORDER BY (created_at) DESC;`
       );
     } else if (
       (!categories || !categories.length) &&
@@ -157,7 +157,7 @@ router.post("/items", async function (req, res) {
     ) {
       const colorsJoined = colors.join(",");
       results = await db(
-        `SELECT * FROM items WHERE (color_id) IN (${colorsJoined});`
+        `SELECT * FROM items WHERE (color_id) IN (${colorsJoined}) ORDER BY (created_at) DESC;`
       );
     } else if (
       (!categories || !categories.length) &&
@@ -165,14 +165,14 @@ router.post("/items", async function (req, res) {
     ) {
       const seasonsJoined = seasons.join(",");
       results = await db(
-        `SELECT * FROM items WHERE (season_id) IN (${seasonsJoined});`
+        `SELECT * FROM items WHERE (season_id) IN (${seasonsJoined}) ORDER BY (created_at) DESC;`
       );
     } else {
       const categoriesJoined = categories.join(",");
       const colorsJoined = colors.join(",");
       const seasonsJoined = seasons.join(",");
       results = await db(
-        `SELECT * FROM items WHERE (category_id) IN (${categoriesJoined}) AND (color_id) IN (${colorsJoined} AND (season_id) IN (${seasonsJoined});`
+        `SELECT * FROM items WHERE (category_id) IN (${categoriesJoined}) AND (color_id) IN (${colorsJoined} AND (season_id) IN (${seasonsJoined}) ORDER BY (created_at) DESC;`
       );
     }
     res.status(201).send(results.data);
@@ -195,29 +195,29 @@ router.delete("/items/:item_id", async function (req, res) {
       (!colors || !colors.length) &&
       (!seasons || !seasons.length)
     ) {
-      results = await db("SELECT * FROM items ORDER BY id ASC;");
+      results = await db("SELECT * FROM items ORDER BY (created_at) DESC;");
     } else if (categories && colors) {
       const categoriesJoined = categories.join(",");
       const colorsJoined = colors.join(",");
       results = await db(
-        `SELECT * FROM items WHERE (category_id) IN (${categoriesJoined}) AND (color_id) IN (${colorsJoined});`
+        `SELECT * FROM items WHERE (category_id) IN (${categoriesJoined}) AND (color_id) IN (${colorsJoined}) ORDER BY (created_at) DESC;`
       );
     } else if (categories && seasons) {
       const categoriesJoined = categories.join(",");
       const seasonsJoined = seasons.join(",");
       results = await db(
-        `SELECT * FROM items WHERE (category_id) IN (${categoriesJoined}) AND (season_id) IN (${seasonsJoined});`
+        `SELECT * FROM items WHERE (category_id) IN (${categoriesJoined}) AND (season_id) IN (${seasonsJoined}) ORDER BY (created_at) DESC;`
       );
     } else if (colors && seasons) {
       const colorsJoined = colors.join(",");
       const seasonsJoined = seasons.join(",");
       results = await db(
-        `SELECT * FROM items WHERE (color_id) IN (${colorsJoined}) AND (season_id) IN (${seasonsJoined});`
+        `SELECT * FROM items WHERE (color_id) IN (${colorsJoined}) AND (season_id) IN (${seasonsJoined}) ORDER BY (created_at) DESC;`
       );
     } else if ((!colors || !colors.length) && (!seasons || !seasons.length)) {
       const categoriesJoined = categories.join(",");
       results = await db(
-        `SELECT * FROM items WHERE (category_id) IN (${categoriesJoined});`
+        `SELECT * FROM items WHERE (category_id) IN (${categoriesJoined}) ORDER BY (created_at) DESC;`
       );
     } else if (
       (!categories || !categories.length) &&
@@ -225,7 +225,7 @@ router.delete("/items/:item_id", async function (req, res) {
     ) {
       const colorsJoined = colors.join(",");
       results = await db(
-        `SELECT * FROM items WHERE (color_id) IN (${colorsJoined});`
+        `SELECT * FROM items WHERE (color_id) IN (${colorsJoined}) ORDER BY (created_at) DESC;`
       );
     } else if (
       (!categories || !categories.length) &&
@@ -233,14 +233,14 @@ router.delete("/items/:item_id", async function (req, res) {
     ) {
       const seasonsJoined = seasons.join(",");
       results = await db(
-        `SELECT * FROM items WHERE (season_id) IN (${seasonsJoined});`
+        `SELECT * FROM items WHERE (season_id) IN (${seasonsJoined}) ORDER BY (created_at) DESC;`
       );
     } else {
       const categoriesJoined = categories.join(",");
       const colorsJoined = colors.join(",");
       const seasonsJoined = seasons.join(",");
       results = await db(
-        `SELECT * FROM items WHERE (category_id) IN (${categoriesJoined}) AND (color_id) IN (${colorsJoined} AND (season_id) IN (${seasonsJoined});`
+        `SELECT * FROM items WHERE (category_id) IN (${categoriesJoined}) AND (color_id) IN (${colorsJoined} AND (season_id) IN (${seasonsJoined}) ORDER BY (created_at) DESC;`
       );
     }
 
