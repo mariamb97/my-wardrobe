@@ -1,6 +1,6 @@
 # My Wardrobe App
 
-In this repository you will find My Wardrobe App, built using React, Node/Express, and MySQL.
+In this repository you will find My Wardrobe App, built using HTML, CSS, React, Node/Express, and MySQL.
 
 ## Setup
 
@@ -12,20 +12,18 @@ Run `yarn` in the project folder to install dependencies related to Express (the
 
 ### Database Prep
 
-Add a `.env` file to the project folder of this repository containing the MySQL authentication information for MySQL user:
+Create a `.env` file to the project folder of this repository containing the MySQL authentication information for MySQL user:
 
 ```
 
 DB_HOST=localhost
-DB_USER=root
+DB_USER=YOUR_USERNAME
 DB_NAME=my_wardrobe
 DB_PASS=YOUR_PASSWORD
 
 ```
 
-(replace `YOUR_PASSWORD` with your actual password)
-
-Type `mysql -u root -p` to access the MySQL CLI using your password.
+(replace `YOUR_USERNAME` and `YOUR_PASSWORD` with your actual username and password)
 
 In the MySQL CLI, type `create database my_wardrobe;` to create a database in MySQL.
 
@@ -35,6 +33,7 @@ In the MySQL CLI, type `create database my_wardrobe;` to create a database in My
 - `seasons` contains 4 rows
   Check all them in the database to see the structure.
   Thay means that the only table that you have to fill is the `items` table (I added in the proyect folder an image folder that contains the URL's of the images I already used)
+  ![alt text](./images/Untitled.png)
 
 ## Support
 
