@@ -31,18 +31,14 @@ In the MySQL CLI, create a database `create database my_wardrobe;`.
 - `colors` contains 12 rows
 - `seasons` contains 4 rows
 
-  Thay means that the only table that you have to fill is the `items` table (I added in the proyect folder an images folder that contains the URL's of the images I already used)
+You can fill the `items` table with your clothes (I added in the proyect folder an images folder that contains the URL's of the images I already used)
 
 ### Development
 
 - Run `npm start` in project directory to start the Express server on port 5000
 - In another terminal, do `cd client` and run `npm start` to start the client in port 3000.
 
-## Architecture
-
-### Database
-
-`my_wardrobe` database han a one to many structure.
+## Database
 
 ![alt text](./images/Untitled.png)
 
